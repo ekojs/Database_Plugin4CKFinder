@@ -18,6 +18,9 @@
  *
  * @return boolean
  */
+ session_start();
+ $_SESSION['IDRole'] = 1; //YOU MUST USE SESSION TO RESTRICT ACCESS TO THE FOLDER
+ 
 function CheckAuthentication()
 {
 	// WARNING : DO NOT simply return "true". By doing so, you are allowing
@@ -30,7 +33,11 @@ function CheckAuthentication()
 	// user logs in your system. To be able to use session variables don't
 	// forget to add session_start() at the top of this file.
 
-	return false;
+	return (isset($_SESSION['IDRole'])?true:false);
+}
+
+if(!isset($_SESSION['IDRole'])){
+	$_SESSION['IDRole'] = 000;
 }
 
 // LicenseKey : Paste your license key here. If left blank, CKFinder will be
@@ -60,7 +67,12 @@ Examples:
 
 ATTENTION: The trailing slash is required.
 */
-$baseUrl = '/ckfinder/userfiles/';
+// $baseUrl = '/ckfinder/userfiles/';
+
+// YOU NEED TO CHANGE THIS CONFIGURATION FOR YOUR ENVIRONMENT:
+// THIS IS AN EXAMPLE FOR YOUR LOCALHOST EX : http://localhost/demo_ckfinder/trunk/
+// SO YOUR BASE URL IS LIKE BELOW :
+$baseUrl = 'http://'.$_SERVER['SERVER_NAME'].'/demo_ckfinder/trunk/assets/user_files/';
 
 /*
 $baseDir : the path to the local directory (in the server) which points to the
@@ -281,7 +293,7 @@ No paths are accepted, only the folder name.
 The * and ? wildcards are accepted.
 ".*" disallows the creation of folders starting with a dot character.
 */
-$config['HideFolders'] = Array(".*", "CVS");
+$config['HideFolders'] = Array(".*", "CVS",".svn");
 
 /*
 Files to not display in CKFinder, no matter their location.
@@ -329,6 +341,18 @@ $config['XSendfile'] = false;
 include_once "plugins/imageresize/plugin.php";
 include_once "plugins/fileeditor/plugin.php";
 include_once "plugins/zip/plugin.php";
+include_once "plugins/ejsplug/plugin.php";
+
+$config['Plugin_ejsplug'] = array(
+	"dbhost" => "your_host",
+	"dbuser" => "your_user",
+	"dbpass" => "your_pass",
+	"dbase" => "your_database",
+	"opt" => array(
+		"main_table" => "slideshow",
+		"other_table" => "userfiles"
+	)
+);
 
 $config['plugin_imageresize']['smallThumb'] = '90x90';
 $config['plugin_imageresize']['mediumThumb'] = '120x120';

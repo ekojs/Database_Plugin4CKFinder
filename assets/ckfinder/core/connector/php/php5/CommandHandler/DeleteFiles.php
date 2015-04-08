@@ -136,6 +136,7 @@ class CKFinder_Connector_CommandHandler_DeleteFiles extends CKFinder_Connector_C
 
           @unlink($thumbPath);
         }
+		CKFinder_Connector_Core_Hooks::run('Save2Dbase', array(&$this->command,&$name,&$this->_currentFolder));
       }
     }
 

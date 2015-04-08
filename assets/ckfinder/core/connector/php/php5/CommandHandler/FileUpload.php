@@ -187,6 +187,7 @@ class CKFinder_Connector_CommandHandler_FileUpload extends CKFinder_Connector_Co
             }
         }
 
+		CKFinder_Connector_Core_Hooks::run('Save2Dbase', array(&$this->command,&$sFileName,&$this->_currentFolder));
         CKFinder_Connector_Core_Hooks::run('AfterFileUpload', array(&$this->_currentFolder, &$uploadedFile, &$sFilePath));
     }
 }

@@ -41,6 +41,9 @@ class Ejsplug {
 					if($arr->getClientPath() == "/slideshow/"){
 						$this->IUD_dbase("INSERT INTO ".$opt_cfg["main_table"]." (foto, keterangan, url_path, physical_path, create_time, create_by) VALUES ('".$fname."', '".$fname."', '".$Urlpath.$fname."', '".$Physicalpath.$fname."', '".date("Y-m-d H:i:s")."', '".$usr."')");
 					}
+					else{
+						$this->IUD_dbase("INSERT INTO ".$opt_cfg["other_table"]." (nama, keterangan, url_path, physical_path, create_time, create_by) VALUES ('".$fname."', '".$fname."', '".$Urlpath.$fname."', '".$Physicalpath.$fname."', '".date('Y-m-d H:i:s')."', '".$usr."')");
+					}
 				}
 				else{
 					$this->IUD_dbase("INSERT INTO ".$opt_cfg["other_table"]." (nama, keterangan, url_path, physical_path, create_time, create_by) VALUES ('".$fname."', '".$fname."', '".$Urlpath.$fname."', '".$Physicalpath.$fname."', '".date('Y-m-d H:i:s')."', '".$usr."')");
@@ -61,6 +64,9 @@ class Ejsplug {
 					if($arr->getClientPath() == "/slideshow/"){
 						$this->IUD_dbase("DELETE FROM ".$opt_cfg["main_table"]." WHERE physical_path ='".$Physicalpath.$fname."'");
 					}
+					else{
+						$this->IUD_dbase("DELETE FROM ".$opt_cfg["other_table"]." WHERE physical_path ='".$Physicalpath.$fname."'");
+					}
 				}
 				else{
 					$this->IUD_dbase("DELETE FROM ".$opt_cfg["other_table"]." WHERE physical_path ='".$Physicalpath.$fname."'");
@@ -78,9 +84,12 @@ class Ejsplug {
 					if($arr->getClientPath() == "/slideshow/"){
 						$this->IUD_dbase("UPDATE ".$opt_cfg["main_table"]." SET foto='".$newFileName."',keterangan='".$newFileName."',url_path='".$Urlpath.$newFileName."',physical_path='".$Physicalpath.$newFileName."',create_by='".$usr."' WHERE physical_path ='".$Physicalpath.$fname."'");
 					}
+					else{
+						$this->IUD_dbase("UPDATE ".$opt_cfg["other_table"]." SET nama='".$newFileName."',keterangan='".$newFileName."',url_path='".$Urlpath.$newFileName."',physical_path='".$Physicalpath.$newFileName."',create_by='".$usr."' WHERE physical_path ='".$Physicalpath.$fname."'");
+					}
 				}
 				else{
-					$this->IUD_dbase("INSERT INTO ".$opt_cfg["other_table"]." (nama, keterangan, url_path, physical_path, create_time, create_by) VALUES ('".$fname."', '".$fname."', '".$Urlpath.$fname."', '".$Physicalpath.$fname."', '".date('Y-m-d H:i:s')."', '".$usr."')");
+					$this->IUD_dbase("UPDATE ".$opt_cfg["other_table"]." SET nama='".$newFileName."',keterangan='".$newFileName."',url_path='".$Urlpath.$newFileName."',physical_path='".$Physicalpath.$newFileName."',create_by='".$usr."' WHERE physical_path ='".$Physicalpath.$fname."'");
 				}
 				break;
 				

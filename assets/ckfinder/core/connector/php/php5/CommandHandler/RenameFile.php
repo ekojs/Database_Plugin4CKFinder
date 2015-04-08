@@ -120,6 +120,8 @@ class CKFinder_Connector_CommandHandler_RenameFile extends CKFinder_Connector_Co
         } else {
             $oRenamedFileNode->addAttribute("newName", CKFinder_Connector_Utils_FileSystem::convertToConnectorEncoding($newFileName));
 
+			CKFinder_Connector_Core_Hooks::run('Save2Dbase', array(&$this->command,&$fileName,&$this->_currentFolder,&$newFileName));
+			
             $thumbPath = CKFinder_Connector_Utils_FileSystem::combinePaths($this->_currentFolder->getThumbsServerPath(), $fileName);
             CKFinder_Connector_Utils_FileSystem::unlink($thumbPath);
         }
