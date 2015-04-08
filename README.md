@@ -1,7 +1,7 @@
 # Database Plugin for CKFinder V1
 This is a plugin I created to store file information to the database each upload a file in a CKFinder. Hope this usefel to the others CKFinder User.
 
-I develop this using PHP and CodeIgniter Framework, so if you not using it, try to adjust like you need. I've created it as same as my CI's Structure.
+I develop this using PHP and CodeIgniter Framework, so if you not using it, try to adjust like you need. I've created it as same as my CI's Structure. I create this from scratch, so it's imperfect not yet. May be we can develop it to be more secure, more dynamic, etc. Hope it.
 
 # How to using it ?
 1. Download the CKFinder in [this](http://cksource.com/ckfinder/download) download page.
