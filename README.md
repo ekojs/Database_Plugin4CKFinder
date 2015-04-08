@@ -1,5 +1,5 @@
 # Database Plugin for CKFinder V1
-This is a plugin I created to store file information to the database each upload a file in a CKFinder. Hope this usefel to the others CKFinder User.
+This is a plugin I created to store file information to the database each upload,rename, and delete a file in a CKFinder. Hope this useful to the others CKFinder User.
 
 I develop this using PHP and CodeIgniter Framework, so if you not using it, try to adjust like you need. I've created it as same as my CI's Structure. I create this from scratch, so it's imperfect not yet. May be we can develop it to be more secure, more dynamic, etc. Hope it.
 
@@ -24,7 +24,7 @@ This plugin cover the features to pass an information to the database, such as :
 
 # How to using it ?
 1. Download the CKFinder in [this](http://cksource.com/ckfinder/download) download page.
-2. Set the configuration as usual, place a library in folder libraries.
+2. Set the configuration as usual, place a library "ckfinder.php" in folder application/libraries.
 3. Place your CKFinder in Assets folder
 4. Create folder for your plugin in CKFinder plugin folder in this, i create "ejsplug" for folder name.
 5. Create a file called plugin.php
