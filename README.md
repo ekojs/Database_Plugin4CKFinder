@@ -7,28 +7,19 @@ I develop this using PHP and CodeIgniter Framework, so if you not using it, try 
 This plugin cover the features to pass an information to the database, such as :
 
 1. 'FileUpload'		: OK
-```php
-	CKFinder_Connector_Core_Hooks::run('Save2Dbase', array(&$this->command,&$sFileName,&$this->_currentFolder));
-```
 2. 'QuickUpload'	: NOT YET
 3. 'DownloadFile'	: NOT YET
 4. 'Thumbnail'		: NOT YET
 5. 'CopyFiles'		: NOT YET
 6. 'CreateFolder'	: NOT YET
 7. 'DeleteFiles'	: OK
-```php
-	CKFinder_Connector_Core_Hooks::run('Save2Dbase', array(&$this->command,&$name,&$this->_currentFolder));
-```
 8. 'DeleteFolder'	: NOT YET
 9. 'GetFiles'		: NOT YET
 10. 'GetFolders'	: NOT YET
-11. 'Init'			: NOT YET
+11. 'Init'		: NOT YET
 12. 'LoadCookies'	: NOT YET
 13. 'MoveFiles'		: NOT YET
 14. 'RenameFile'	: OK
-```php
-	CKFinder_Connector_Core_Hooks::run('Save2Dbase', array(&$this->command,&$fileName,&$this->_currentFolder,&$newFileName));
-```
 15. 'RenameFolder'	: NOT YET
 
 # How to using it ?
