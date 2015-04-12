@@ -12,6 +12,10 @@ class Welcome extends CI_Controller {
 		$this->ckfinder->BasePath = '/demo_ckfinder/trunk/assets/ckfinder/' ;
 		return $this->ckfinder->Create();
 	}
+	
+	function phpinfo(){
+		phpinfo();
+	}
 }
 
 /* End of file welcome.php */

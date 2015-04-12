@@ -79,6 +79,7 @@
 		<code>application/controllers/welcome.php</code>
 		
 		<?php
+			echo "<p>".anchor('welcome/phpinfo','Show PHP Info')."</p>";
 			echo "<p>If you want to check the <b><font color='blue'>CKFinder Standalone</font></b> please go ".anchor('welcome/loadEditor','Here').".</p>";
 		?>
 	</div>

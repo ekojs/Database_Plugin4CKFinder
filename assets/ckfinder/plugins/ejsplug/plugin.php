@@ -10,43 +10,65 @@
  */
 
 class Ejsplug {
-	
-    function onSave2Dbase($jns=null,$fname=null,$arr=null,$newFileName=null) {
+    
+	function onSave2Dbase($command=null,$filename=null,$arr=null,$newFileName=null) {
 		global $config;
         $ejsplug_config = $config['Plugin_ejsplug'];
         $opt_cfg = $config['Plugin_ejsplug']['opt'];
 		
-		$Urlpath = $arr->getUrl();
-		$Physicalpath = $arr->getServerPath();
-		/* $fp = fopen("ekotes_plugin.txt","w");
-		
-		$txt = $arr->getClientPath()." \r";
-		$txt .= $arr->getResourceTypeName()." \r\t";
-		$txt .= var_export($arr,true);
-		
-		fwrite($fp,$txt);
-		fclose($fp); */
-		
-		$link = mysql_connect($ejsplug_config['dbhost'], $ejsplug_config['dbuser'], $ejsplug_config['dbpass'])or die('Could not connect: ' . mysql_error());
-		mysql_select_db($ejsplug_config['dbase']) or die('Could not select database');
+		$pPath = $arr->getServerPath().$filename;
+		$uPath = $arr->getUrl().$filename;
 		
 		if(isset($_SESSION['IDRole']) && !is_null($arr)){
-			$gid = intval($_SESSION['IDRole']);
-			$usr = $this->S_dbase("select username from users where IDRole='".$gid."'");
-			$usr = $usr['username'];
+			// Making a connection...
+			$mysqli = mysqli_connect($ejsplug_config['dbhost'], $ejsplug_config['dbuser'], $ejsplug_config['dbpass'],$ejsplug_config['dbase']);
+			if ($mysqli->connect_error) {
+				die("Connection failed: " . $mysqli->connect_error);
+			}
 			
-			switch($jns){
+			$sql = "select username from users where IDRole=?";
+			$stmt = $mysqli->prepare($sql);
+			$stmt->bind_param('i', intval($_SESSION['IDRole']));
+			$stmt->execute();
+			$stmt->store_result();
+			$stmt->bind_result($usr);
+			$stmt->fetch();
+			
+			/* $fp = fopen("test_connect.txt","w");
+		
+			$txt = var_export($usr,true);
+			$txt .= "\r\r\t";
+			$txt .= var_export($ejsplug_config,true);
+			$txt .= "\r\r\t";
+			$txt .= var_export($stmt,true);
+			fwrite($fp,$txt);
+			fclose($fp); */
+			
+			switch($command){
 				case 'FileUpload':
 				if($arr->getResourceTypeName() == "Images"){
 					if($arr->getClientPath() == "/slideshow/"){
-						$this->IUD_dbase("INSERT INTO ".$opt_cfg["main_table"]." (foto, keterangan, url_path, physical_path, create_time, create_by) VALUES ('".$fname."', '".$fname."', '".$Urlpath.$fname."', '".$Physicalpath.$fname."', '".date("Y-m-d H:i:s")."', '".$usr."')");
+						$tgl = date('Y-m-d H:i:s');
+						$sql = "INSERT INTO ".$opt_cfg["main_table"]." (nama, keterangan, url_path, physical_path, create_time, create_by) VALUES (?, ?, ?, ?, ?, ?)";
+						
+						$stmt = $mysqli->prepare($sql);
+						$stmt->bind_param('ssssss', $filename,$filename,$uPath,$pPath,$tgl,$usr);
+						$stmt->execute();
+					}else{
+						$tgl = date('Y-m-d H:i:s');
+						$sql = "INSERT INTO ".$opt_cfg["other_table"]." (nama, keterangan, url_path, physical_path, create_time, create_by) VALUES (?, ?, ?, ?, ?, ?)";
+						
+						$stmt = $mysqli->prepare($sql);
+						$stmt->bind_param('ssssss', $filename,$filename,$uPath,$pPath,$tgl,$usr);
+						$stmt->execute();
 					}
-					else{
-						$this->IUD_dbase("INSERT INTO ".$opt_cfg["other_table"]." (nama, keterangan, url_path, physical_path, create_time, create_by) VALUES ('".$fname."', '".$fname."', '".$Urlpath.$fname."', '".$Physicalpath.$fname."', '".date('Y-m-d H:i:s')."', '".$usr."')");
-					}
-				}
-				else{
-					$this->IUD_dbase("INSERT INTO ".$opt_cfg["other_table"]." (nama, keterangan, url_path, physical_path, create_time, create_by) VALUES ('".$fname."', '".$fname."', '".$Urlpath.$fname."', '".$Physicalpath.$fname."', '".date('Y-m-d H:i:s')."', '".$usr."')");
+				}else{
+					$tgl = date('Y-m-d H:i:s');
+					$sql = "INSERT INTO ".$opt_cfg["other_table"]." (nama, keterangan, url_path, physical_path, create_time, create_by) VALUES (?, ?, ?, ?, ?, ?)";
+					
+					$stmt = $mysqli->prepare($sql);
+					$stmt->bind_param('ssssss', $filename,$filename,$uPath,$pPath,$tgl,$usr);
+					$stmt->execute();
 				}
 				break;
 
@@ -62,14 +84,27 @@ class Ejsplug {
 				case 'DeleteFiles':
 				if($arr->getResourceTypeName() == "Images"){
 					if($arr->getClientPath() == "/slideshow/"){
-						$this->IUD_dbase("DELETE FROM ".$opt_cfg["main_table"]." WHERE physical_path ='".$Physicalpath.$fname."'");
+						$tgl = date('Y-m-d H:i:s');
+						$sql = "DELETE FROM ".$opt_cfg["main_table"]." WHERE physical_path =?";
+						
+						$stmt = $mysqli->prepare($sql);
+						$stmt->bind_param('s', $pPath);
+						$stmt->execute();
+					}else{
+						$tgl = date('Y-m-d H:i:s');
+						$sql = "DELETE FROM ".$opt_cfg["other_table"]." WHERE physical_path =?";
+						
+						$stmt = $mysqli->prepare($sql);
+						$stmt->bind_param('s', $pPath);
+						$stmt->execute();
 					}
-					else{
-						$this->IUD_dbase("DELETE FROM ".$opt_cfg["other_table"]." WHERE physical_path ='".$Physicalpath.$fname."'");
-					}
-				}
-				else{
-					$this->IUD_dbase("DELETE FROM ".$opt_cfg["other_table"]." WHERE physical_path ='".$Physicalpath.$fname."'");
+				}else{
+					$tgl = date('Y-m-d H:i:s');
+					$sql = "DELETE FROM ".$opt_cfg["other_table"]." WHERE physical_path =?";
+					
+					$stmt = $mysqli->prepare($sql);
+					$stmt->bind_param('s', $pPath);
+					$stmt->execute();
 				}
 				break;
 				
@@ -81,15 +116,31 @@ class Ejsplug {
 				case 'MoveFiles':
 				case 'RenameFile':				
 				if($arr->getResourceTypeName() == "Images"){
+					$npPath = $arr->getServerPath().$newFileName;
+					$nuPath = $arr->getUrl().$newFileName;
+					
 					if($arr->getClientPath() == "/slideshow/"){
-						$this->IUD_dbase("UPDATE ".$opt_cfg["main_table"]." SET foto='".$newFileName."',keterangan='".$newFileName."',url_path='".$Urlpath.$newFileName."',physical_path='".$Physicalpath.$newFileName."',create_by='".$usr."' WHERE physical_path ='".$Physicalpath.$fname."'");
+						$tgl = date('Y-m-d H:i:s');
+						$sql = "UPDATE ".$opt_cfg["main_table"]." SET nama=?,keterangan=?,url_path=?,physical_path=?,create_by=? WHERE physical_path =?";
+						
+						$stmt = $mysqli->prepare($sql);
+						$stmt->bind_param('ssssss', $newFileName,$newFileName,$nuPath,$npPath,$usr,$pPath);
+						$stmt->execute();
+					}else{
+						$tgl = date('Y-m-d H:i:s');
+						$sql = "UPDATE ".$opt_cfg["other_table"]." SET nama=?,keterangan=?,url_path=?,physical_path=?,create_by=? WHERE physical_path =?";
+						
+						$stmt = $mysqli->prepare($sql);
+						$stmt->bind_param('ssssss', $newFileName,$newFileName,$nuPath,$npPath,$usr,$pPath);
+						$stmt->execute();
 					}
-					else{
-						$this->IUD_dbase("UPDATE ".$opt_cfg["other_table"]." SET nama='".$newFileName."',keterangan='".$newFileName."',url_path='".$Urlpath.$newFileName."',physical_path='".$Physicalpath.$newFileName."',create_by='".$usr."' WHERE physical_path ='".$Physicalpath.$fname."'");
-					}
-				}
-				else{
-					$this->IUD_dbase("UPDATE ".$opt_cfg["other_table"]." SET nama='".$newFileName."',keterangan='".$newFileName."',url_path='".$Urlpath.$newFileName."',physical_path='".$Physicalpath.$newFileName."',create_by='".$usr."' WHERE physical_path ='".$Physicalpath.$fname."'");
+				}else{
+					$tgl = date('Y-m-d H:i:s');
+					$sql = "UPDATE ".$opt_cfg["other_table"]." SET nama=?,keterangan=?,url_path=?,physical_path=?,create_by=? WHERE physical_path =?";
+					
+					$stmt = $mysqli->prepare($sql);
+					$stmt->bind_param('ssssss', $newFileName,$newFileName,$nuPath,$npPath,$usr,$pPath);
+					$stmt->execute();
 				}
 				break;
 				
@@ -99,20 +150,12 @@ class Ejsplug {
 				default:
 				break;
 			}
+			
+			$stmt->close();
+			$mysqli->close();
 		}
-		mysql_close($link);
 		return true;
     }
-	
-	private function S_dbase($sql){
-		$result = mysql_query($sql) or die('Query failed: ' . mysql_error());
-		return mysql_fetch_array($result, MYSQL_ASSOC);
-	}
-	
-	private function IUD_dbase($sql){
-		// $result = mysql_query($sql) or die('Query failed: ' . mysql_error());
-		mysql_query($sql) or die('Query failed: ' . mysql_error());
-	}
 }
 
 $ejs = new Ejsplug();
