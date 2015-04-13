@@ -52,7 +52,7 @@ class Ejsplug {
 			case 'FileUpload':
 			if($arr->getResourceTypeName() == "Images"){
 				if($arr->getClientPath() == "/slideshow/"){
-					$sql = "INSERT INTO ".$opt_cfg["main_table"]." (nama, keterangan, url_path, physical_path, create_time, create_by) VALUES (?, ?, ?, ?, ?, ?)";					
+					$sql = "INSERT INTO ".$opt_cfg["main_table"]." (foto, keterangan, url_path, physical_path, create_time, create_by) VALUES (?, ?, ?, ?, ?, ?)";					
 					$stmt = $mysqli->prepare($sql);
 					$stmt->bind_param('ssssss', $filename,$filename,$uPath,$pPath,$tgl,$usr);
 				}else{
@@ -104,7 +104,7 @@ class Ejsplug {
 				$nuPath = $arr->getUrl().$newFileName;
 				
 				if($arr->getClientPath() == "/slideshow/"){
-					$sql = "UPDATE ".$opt_cfg["main_table"]." SET nama=?,keterangan=?,url_path=?,physical_path=?,create_by=? WHERE physical_path =?";
+					$sql = "UPDATE ".$opt_cfg["main_table"]." SET foto=?,keterangan=?,url_path=?,physical_path=?,create_by=? WHERE physical_path =?";
 					$stmt = $mysqli->prepare($sql);
 					$stmt->bind_param('ssssss', $newFileName,$newFileName,$nuPath,$npPath,$usr,$pPath);
 				}else{
