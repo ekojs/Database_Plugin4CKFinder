@@ -44,3 +44,38 @@ This plugin cover the features to pass an information to the database, such as :
 ```
 7. Last, you can test it.
 8. If you have a problem how to using it, feel free to comment.
+
+# How to use this DEMO from github subversion ?
+1. Create folder in your htdocs ckfinderku and Checkout from trunk folder in https://github.com/ekojs/Database_Plugin4CKFinder/trunk
+2. Create database using *.sql from assets/slideshow.sql, assets/userfiles.sql, assets/users.sql.
+3. Change the configuration in application/config/database.php file using information from your new database created earlier.
+4. Change line 21 in application/controllers/welcome.php file 
+```php
+    $this->ckfinder->BasePath = '/ckfinderku/assets/ckfinder/'; //change this path based on your need, this line means : http://localhost/ckfinderku/assets/ckfinder
+```
+5. Change line number 75 and 346-355 in assets/ckfinder/config.php file.
+```php
+    $baseUrl = 'http://'.$_SERVER['SERVER_NAME'].'/ckfinderku/assets/ckfinder/userfiles/'; //change this line 75 and 346 based on your configuration above
+	
+	$config['Plugin_ejsplug'] = array(
+        "dbhost" => "",
+        "dbuser" => "",
+        "dbpass" => "",
+        "dbase" => "",
+        "opt" => array(
+            "main_table" => "slideshow",
+            "other_table" => "userfiles"
+        )
+    );
+```
+6. Run this demo http://localhost/ckfinderku and click "Here"
+7. For the first time you run the ckfinder it will create a folder in userfiles/
+```php
+    assets/ckfinder/userfiles/_thumbs
+    assets/ckfinder/userfiles/files
+    assets/ckfinder/userfiles/flash
+    assets/ckfinder/userfiles/images
+```
+8. Create folder "slideshow" in assets/ckfinder/userfiles/images
+9. Refresh the ckfinder page until you see slideshow child folder in images folder
+10. Test upload, rename and delete while you check in slideshow table in database.

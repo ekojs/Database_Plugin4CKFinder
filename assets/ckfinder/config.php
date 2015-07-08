@@ -72,7 +72,7 @@ ATTENTION: The trailing slash is required.
 // YOU NEED TO CHANGE THIS CONFIGURATION FOR YOUR ENVIRONMENT:
 // THIS IS AN EXAMPLE FOR YOUR LOCALHOST EX : http://localhost/demo_ckfinder/trunk/
 // SO YOUR BASE URL IS LIKE BELOW :
-$baseUrl = 'http://'.$_SERVER['SERVER_NAME'].'/demo_ckfinder/trunk/assets/user_files/';
+$baseUrl = 'http://'.$_SERVER['SERVER_NAME'].'/ckfinderku/assets/ckfinder/userfiles/';
 
 /*
 $baseDir : the path to the local directory (in the server) which points to the

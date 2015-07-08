@@ -8,8 +8,17 @@ class Welcome extends CI_Controller {
 	}
 	
 	function loadEditor(){
+		$this->load->library('session');
+		$data = array(
+		   'username'  => 'administrator',
+		   'IDRole'     => '1',
+		   'logged_in' => TRUE
+	   );
+
+		$this->session->set_userdata($data);
+		
 		$this->load->library('ckfinder');
-		$this->ckfinder->BasePath = '/demo_ckfinder/trunk/assets/ckfinder/' ;
+		$this->ckfinder->BasePath = '/ckfinderku/assets/ckfinder/' ;
 		return $this->ckfinder->Create();
 	}
 	
