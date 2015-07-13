@@ -1,3 +1,17 @@
+EJSPlug For CKFinder
+	Copyright (C) 2015 Eko Junaidi Salam
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details, see http://www.gnu.org/licenses.
+    
+
 # Database Plugin for CKFinder V1
 This is a plugin I created to store file information to the database each upload,rename, and delete a file in a CKFinder. Hope this useful to the others CKFinder User.
 
